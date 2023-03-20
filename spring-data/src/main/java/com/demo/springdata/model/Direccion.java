@@ -1,4 +1,4 @@
-package com.demo.model;
+package com.demo.springdata.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,14 +10,12 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Tarjeta {
+public class Direccion {
     @Id
     private int id;
-
-    private String numero;
-    private String tipo;
-
+    private String direccion;
+    private String nomenclatura;
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 }

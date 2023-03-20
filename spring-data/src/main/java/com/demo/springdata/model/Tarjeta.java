@@ -1,13 +1,16 @@
-package com.demo.model;
+package com.demo.springdata.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class Inversion {
+public class Tarjeta {
     @Id
     private int id;
 

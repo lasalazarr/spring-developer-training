@@ -1,4 +1,4 @@
-package com.demo.model;
+package com.demo.springdata.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
