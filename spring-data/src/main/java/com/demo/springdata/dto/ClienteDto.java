@@ -8,8 +8,9 @@ import java.util.List;
 public class ClienteDto {
     private int id;
     private String nombre;
-    private String apellido;
+    private String apellidos;
     private String cedula;
     private String telefono;
+    private String paisNacimiento;
     private List<DireccionDto> direccionsDto;
 }

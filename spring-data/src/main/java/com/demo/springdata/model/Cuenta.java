@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 public class Cuenta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String numero;
     private String tipo;
-
+    private Boolean estado; // activo/desactivo
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 }

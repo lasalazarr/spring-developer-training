@@ -21,3 +21,4 @@ public class SpringDataApplication {
 				"-tcp", "-tcpAllowOthers", "-tcpPort", "9090");
 	}
 }
+

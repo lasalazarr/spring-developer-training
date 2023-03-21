@@ -1,6 +1,7 @@
 package com.demo.springdata.service;
 
 import com.demo.springdata.dto.ClienteDto;
+import com.demo.springdata.dto.ProductosDto;
 import com.demo.springdata.model.Cliente;
 import com.demo.springdata.service.ClienteService;
 import jakarta.persistence.EntityManager;
@@ -30,7 +31,7 @@ class ClienteServiceTest {
         System.out.println("listar antes de insertar: " + clienteList);
         System.out.println("listar cuantos tiene: " + clienteList.size());
         ClienteDto clienteDto = new ClienteDto();
-        clienteDto.setApellido("Salazar");
+        clienteDto.setApellidos("Salazar");
         clienteDto.setNombre("Alberto");
         clienteDto.setCedula("1890000000");
         clienteDto.setTelefono("0999714563");
@@ -46,35 +47,38 @@ class ClienteServiceTest {
     @Test
     void obtenerCliente() {
         ClienteDto clienteDto = clienteService.obtenerCliente(1);
-        System.out.println("El cliente es:" + clienteDto.getNombre() + clienteDto.getApellido());
+        System.out.println("El cliente es:" + clienteDto.getNombre() + clienteDto.getApellidos());
         assertEquals(1, clienteDto.getId());
     }
 
     @Test
     void actualizarCliente() {
         //INSERT INTO CLIENTE (APELLIDOS, CEDULA, NOMBRE, TELEFONO) VALUES ('PEREZ', '1', 'ROBERTO', '093939393');
-
         ClienteDto clienteDtoBase = clienteService.obtenerCliente(1);
         System.out.println(clienteDtoBase);
 
         clienteDtoBase.setNombre(clienteDtoBase.getNombre() + "TEST");
         clienteDtoBase.setCedula(clienteDtoBase.getCedula() + "TEST");
         clienteDtoBase.setTelefono(clienteDtoBase.getTelefono() + "TEST");
-        clienteDtoBase.setApellido(clienteDtoBase.getApellido() + "TEST");
+        clienteDtoBase.setApellidos(clienteDtoBase.getApellidos() + "TEST");
         clienteService.actualizarCliente(clienteDtoBase);
 
         ClienteDto clienteDtoBaseUpdated = clienteService.obtenerCliente(1);
 
         System.out.println(clienteDtoBaseUpdated);
         assertEquals("ROBERTOTEST", clienteDtoBaseUpdated.getNombre());
-        assertEquals("PEREZTEST", clienteDtoBaseUpdated.getApellido());
+        assertEquals("PEREZTEST", clienteDtoBaseUpdated.getApellidos());
     }
 
     @Test
     void eliminarCliente() {
         ClienteDto clienteDtoBase = clienteService.obtenerCliente(1);
         assertEquals(1, clienteDtoBase.getId());
-
+        clienteDtoBase.getDireccionsDto().stream().map(
+                direccionDto ->{
+                    System.out.println(direccionDto.getDireccion());
+                    return direccionDto;
+                });
         clienteService.eliminarCliente(1);
 
         try {
@@ -83,5 +87,41 @@ class ClienteServiceTest {
         } catch (RuntimeException e) {
             System.out.println("CLIENTE NO EXISTE: " + e.getMessage());
         }
+    }
+
+    @Test
+    void obtenerClientesPorCodigoISOPaisYCuentasActivas() {
+        List<ClienteDto> clientesDto = clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("CR");
+        clientesDto.forEach(clienteDto -> {System.out.println("Cuentas Activas" + clienteDto);});
+        assertEquals(1, clientesDto.size());
+    }
+
+    @Test
+    void buscarClientesPorApellido() {
+        List<Cliente> cliente =  clienteService.buscarClientesPorApellido("PEREZ");
+        assertFalse(cliente.isEmpty());
+        assertEquals("PEREZ", cliente.get(0).getApellidos());
+    }
+
+    @Test
+    void buscarClientesPorApellidoNativo() {
+        clienteService.buscarClientesPorApellidoNativo("PEREZ");
+        assertEquals(1,1);
+    }
+
+    @Test
+    void buscarClientesDinamicamentePorCriterio() {
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDto.setNombre("RAUL");
+        List<ClienteDto> resultadoCriteriosConDatosDTO = clienteService.buscarClientesDinamicamentePorCriterio(clienteDto);
+        resultadoCriteriosConDatosDTO.forEach(clienteDtoResultado -> {System.out.println("ClienteDto es:"+ clienteDtoResultado);});
+        assertEquals(1,resultadoCriteriosConDatosDTO.size());
+    }
+
+    @Test
+    void obtenerTodosLosProductosDeUnCliente() {
+        ProductosDto productosDto = clienteService.obtenerTodosLosProductosDeUnCliente(1);
+        assertEquals(2, productosDto.getCuentaDto().size());
     }
 }
