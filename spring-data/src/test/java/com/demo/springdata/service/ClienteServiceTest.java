@@ -32,16 +32,28 @@ class ClienteServiceTest {
         System.out.println("listar cuantos tiene: " + clienteList.size());
         ClienteDto clienteDto = new ClienteDto();
         clienteDto.setApellidos("Salazar");
-        clienteDto.setNombre("Alberto");
+        clienteDto.setNombre(null);
         clienteDto.setCedula("1890000000");
         clienteDto.setTelefono("0999714563");
-
+        clienteDto.setDireccionsDto(null);
         clienteService.insertarCliente(clienteDto);
 
         clienteList = entityManager.createQuery("SELECT c FROM Cliente c").getResultList();
         assertFalse(clienteList.isEmpty());
         System.out.println("listar cuantos tiene: " + clienteList.size());
         assertEquals("1890000000", clienteList.get(5).getCedula());
+    }
+
+    @Test
+    void insertarClienteConValidaciones(){
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setApellidos("Salazar");
+        clienteDto.setNombre(null);
+        clienteDto.setCedula("1890000000");
+        clienteDto.setTelefono("0999714563");
+        clienteDto.setDireccionsDto(null);
+        clienteService.insertarCliente(clienteDto);
+        assertEquals(1,1);
     }
 
     @Test

@@ -5,6 +5,7 @@ import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,11 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>, JpaS
      List<Tuple>  buscarPorApellidosNativo(String apellidos);
 
      //List<Cliente> findClientesByPaisNacimientoContainsAndTarjeta_EstadoIsTrue();
+
+//     @Query(value = "CALL FIND_CLIENTES_AFTER_YEAR(:year_in);", nativeQuery = true)
+//     List<Cliente> findClientesAfterYear(@Param("year_in") Integer year_in);
+
+     List<Cliente> findByCedula(String cedula);
+
+     List<Cliente> findByNombreContainingIgnoreCaseOrApellidosContainingIgnoreCase(String nombres, String apellidos);
 }

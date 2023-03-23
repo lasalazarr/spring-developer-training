@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface InversionRepository extends JpaRepository<Inversion, Integer> {
-    List<Inversion> findByCliente_Id(int clienteId);
+    List<Inversion> findByCliente_IdAndEstadoIsTrue(int clienteId);
 }

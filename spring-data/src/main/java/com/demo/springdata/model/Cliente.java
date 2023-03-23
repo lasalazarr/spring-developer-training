@@ -1,6 +1,8 @@
 package com.demo.springdata.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +20,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "nombre")
+    @NotNull(message = "Name cannot be null")
     private String nombre;
     @Column(length = 30)
     private String apellidos;
@@ -25,9 +28,8 @@ public class Cliente {
     private String cedula;
     private String telefono;
     private String paisNacimiento;
-
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente")//, fetch = FetchType.EAGER)
     private List<Direccion> direccions;
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente")//, fetch = FetchType.EAGER)
     private List<Cuenta> cuentas;
 }

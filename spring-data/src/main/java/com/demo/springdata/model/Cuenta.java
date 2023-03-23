@@ -7,6 +7,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+//@NamedStoredProcedureQueries({
+//        @NamedStoredProcedureQuery(name = "getAllClientes", procedureName = "get_all_clientes",
+//                resultClasses = Cliente.class) })
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

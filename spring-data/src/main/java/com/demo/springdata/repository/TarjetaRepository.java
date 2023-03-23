@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TarjetaRepository extends JpaRepository<Tarjeta, Integer> {
+    List<Tarjeta> findByCliente_IdAndEstadoIsTrue(int clienteId);
     List<Tarjeta> findByCliente_Id(int clienteId);
 
 }
