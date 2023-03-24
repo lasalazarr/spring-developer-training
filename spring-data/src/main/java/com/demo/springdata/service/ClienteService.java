@@ -10,6 +10,7 @@ import com.demo.springdata.repository.*;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @AllArgsConstructor
+@Slf4j
 public class ClienteService {
     private ClienteRepository clienteRepository;
     private DireccionRepository direccionRepository;
@@ -57,7 +59,11 @@ public class ClienteService {
     }
 
     public void actualizarCliente(ClienteDto clienteDto) {
-        Cliente cliente = new Cliente();
+        log.info("Buscar cliente por id: {}", clienteDto.getId());
+        Cliente cliente = clienteRepository.findById(clienteDto.getId())
+                .orElseThrow(() -> {
+                    throw new RuntimeException("Cliente No Existe");
+                });
         cliente.setId(clienteDto.getId());
         cliente.setNombre(clienteDto.getNombre());
         cliente.setApellidos(clienteDto.getApellidos());
@@ -172,5 +178,18 @@ public class ClienteService {
         InversionDto inversionDto = new InversionDto();
         BeanUtils.copyProperties(inversion, inversionDto);
         return inversionDto;
+    }
+
+    public List<ClienteDto> listarTodosLosClientes(){
+        List<ClienteDto> clienteDtoList = new ArrayList<>();
+        clienteRepository
+                .findAll()
+                .stream()
+                .map(cliente -> {
+                    clienteDtoList.add(fromClienteToDto(cliente));
+                    return cliente;
+                })
+                .collect(Collectors.toList());
+        return clienteDtoList;
     }
 }

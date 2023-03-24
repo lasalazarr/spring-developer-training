@@ -3,7 +3,6 @@ package com.demo.springdata.service;
 import com.demo.springdata.dto.ClienteDto;
 import com.demo.springdata.dto.ProductosDto;
 import com.demo.springdata.model.Cliente;
-import com.demo.springdata.service.ClienteService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
