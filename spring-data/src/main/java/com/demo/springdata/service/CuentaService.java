@@ -58,4 +58,11 @@ public class CuentaService {
         cuentaRepository.save(cuenta);
         log.info("Cuenta: {} ", cuenta);
     }
+
+    public CuentaDto desactivarCuentaPorId(CuentaDto cuentaDto){
+        Cuenta cuenta = cuentaRepository.findById(cuentaDto.getId()).orElseThrow(() -> {throw new RuntimeException("cuenta de Cliente No Existe");});
+        cuenta.setEstado(false);
+        cuentaRepository.save(cuenta);
+        return fromCuentaToDto(cuenta);
+    }
 }

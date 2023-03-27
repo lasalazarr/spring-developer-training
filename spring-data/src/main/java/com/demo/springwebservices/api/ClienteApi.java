@@ -58,7 +58,7 @@ public class ClienteApi {
     }
 
     @PutMapping
-    public void actualizarCliente(ClienteDto clienteDto){
+    public void actualizarCliente(@RequestBody ClienteDto clienteDto){
         log.info("Actualizacion de Cliente : {}", clienteDto);
         clienteService.actualizarCliente(clienteDto);
     }
